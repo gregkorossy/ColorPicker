@@ -23,8 +23,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TableRow;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -52,13 +50,23 @@ public class ColorPickerPaletteFlex extends RecyclerView implements OnColorSelec
     public ColorPickerPaletteFlex(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW, FlexWrap.NOWRAP);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW, FlexWrap.WRAP);
         setLayoutManager(layoutManager);
 
         Resources res = getResources();
 
         mDescription = res.getString(R.string.color_swatch_description);
         mDescriptionSelected = res.getString(R.string.color_swatch_description_selected);
+
+        /*TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerPaletteFlex, defStyle, 0);
+        int colorsResId = a.getResourceId(R.styleable.ColorPickerPaletteFlex_colors, 0);
+
+        if(colorsResId > 0){
+            int[] colors = context.getResources().getIntArray(colorsResId);
+        }
+
+        int currentColor = a.getInt(R.styleable.ColorPickerPaletteFlex_currentColor, 0);
+        a.recycle();*/
     }
 
     public void setup(ColorPickerDialog.Params params) {
@@ -148,7 +156,7 @@ public class ColorPickerPaletteFlex extends RecyclerView implements OnColorSelec
 
     private static class ColorHolder extends RecyclerView.ViewHolder {
 
-        public ColorHolder(View itemView) {
+        ColorHolder(View itemView) {
             super(itemView);
         }
     }

@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity implements ColorPickerSwatch
                 ColorPickerDialog.Params params = new ColorPickerDialog.Params.Builder(getApplicationContext())
                         .setSize(ColorPickerDialog.SIZE_SMALL)
                         .setColumns(0)
-                        .setColors(getResources().getIntArray(com.takisoft.colorpicker.R.array.color_picker_default_colors))
+                        .setSortColors(false)
+                        .setSelectedColor(getResources().getColor(R.color.deep_orange))
+                        .setColors(getResources().getIntArray(R.array.color_picker_default_colors))
                         .build();
                 ColorPickerDialog dialog = new ColorPickerDialog(MainActivity.this, MainActivity.this, params);
                 dialog.show();

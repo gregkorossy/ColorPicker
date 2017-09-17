@@ -13,33 +13,27 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center" >
+    android:gravity="center"
+    android:padding="18dp">
 
-    <FrameLayout
+    <ProgressBar
+        android:id="@android:id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+    <com.takisoft.colorpicker.ColorPickerPaletteFlex
+        android:id="@+id/color_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:padding="18dp" >
-
-        <ProgressBar
-            android:id="@android:id/progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center" />
-
-        <com.takisoft.colorpicker.ColorPickerPaletteFlex2
-            android:id="@+id/color_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="gone" />
-    </FrameLayout>
-</android.support.v4.widget.NestedScrollView>
+        android:visibility="gone" />
+</FrameLayout>

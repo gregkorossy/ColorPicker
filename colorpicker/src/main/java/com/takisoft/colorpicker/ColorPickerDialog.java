@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
 
 public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.OnColorSelectedListener {
     public static final int SIZE_LARGE = 1;
@@ -21,7 +22,7 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
     public @interface Size {
     }
 
-    private final ColorPickerPaletteFlex2 mPalette;
+    private final ColorPickerPaletteFlex mPalette;
     private final ProgressBar mProgress;
 
     private ColorPickerSwatch.OnColorSelectedListener listener;
@@ -49,6 +50,9 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
         //mPalette.init(params.mSize, params.mColumns, this);
         mPalette.setOnColorSelectedListener(this);
 
+        if (params.mColumns > 0) {
+            mPalette.getLayoutParams().width = params.mColumns * (params.mSwatchLength + 2 * params.mMarginSize);
+        }
 
         if (params.mColors != null) {
             showPaletteView();
@@ -109,6 +113,8 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
         int mSwatchLength;
         int mMarginSize;
 
+        int mSelectedColorIndex = -1;
+
         private Params() {
         }
 
@@ -117,6 +123,8 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
             private CharSequence[] colorContentDescriptions;
             private int selectedColor;
             private int columns;
+
+            private boolean sortColors = false;
 
             @Size
             private int size;
@@ -142,8 +150,20 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
                 return this;
             }
 
+            /**
+             * Sets the number of columns to be used in the dialog. If the set value is less than or
+             * equals to zero, the column number will be calculated automatically.
+             *
+             * @param columns the number of columns
+             * @return the Builder instance
+             */
             public Builder setColumns(int columns) {
                 this.columns = columns;
+                return this;
+            }
+
+            public Builder setSortColors(boolean sortColors) {
+                this.sortColors = sortColors;
                 return this;
             }
 
@@ -155,7 +175,26 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
             public Params build() {
                 Params params = new Params();
 
-                params.mColors = colors;
+                if (sortColors) {
+                    final int n = colors.length;
+
+                    Integer[] colorObjs = new Integer[n];
+                    for (int i = 0; i < n; i++) {
+                        colorObjs[i] = colors[i];
+                    }
+
+                    Arrays.sort(colorObjs, new HsvColorComparator());
+
+                    int[] sortedColors = new int[n];
+
+                    for (int i = 0; i < n; i++) {
+                        sortedColors[i] = colorObjs[i];
+                    }
+
+                    params.mColors = sortedColors;
+                } else {
+                    params.mColors = colors;
+                }
                 params.mColorContentDescriptions = colorContentDescriptions;
                 params.mSelectedColor = selectedColor;
                 params.mColumns = columns;
