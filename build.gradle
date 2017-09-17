@@ -6,7 +6,7 @@ project.ext.supportLibraryVersion = '26.1.0'
 project.ext.supportLibraryVersionPrefix = '26.1.0'
 project.ext.supportLibraryVersionSuffix = ''
 
-project.ext.libVersion = '0.9.0'
+project.ext.libVersion = '0.9.1'
 
 buildscript {
     
