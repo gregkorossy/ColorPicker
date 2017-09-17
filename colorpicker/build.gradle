@@ -30,7 +30,7 @@ ext {
     bintrayName = 'com.takisoft.fix:colorpicker'
 
     publishedGroupId = 'com.takisoft.fix'
-    libraryName = 'Material DateTimePickers'
+    libraryName = 'Material ColorPicker'
     artifact = 'datetimepicker'
 
     libraryDescription = 'The material color picker opt package from the AOSP. This library uses the AppCompat library to provide the necessary functions for new features, such as vector drawables and material design.'
