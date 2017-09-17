@@ -18,6 +18,7 @@ package com.takisoft.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -69,8 +70,21 @@ public class ColorPickerPaletteFlex extends RecyclerView implements OnColorSelec
         a.recycle();*/
     }
 
-    public void setup(ColorPickerDialog.Params params) {
+    public void setup(@NonNull ColorPickerDialog.Params params) {
+        if (params.mColors == null) {
+            throw new IllegalArgumentException("The supplied params (" + params + ") does not " +
+                    "contain colors.");
+        }
+
         setAdapter(new ColorAdapter(params, this, mDescription, mDescriptionSelected));
+
+        final int n = params.mColors.length;
+        for (int i = 0; i < n; i++) {
+            if (params.mColors[i] == params.mSelectedColor) {
+                scrollToPosition(i);
+                break;
+            }
+        }
     }
 
     public void setOnColorSelectedListener(OnColorSelectedListener listener) {
