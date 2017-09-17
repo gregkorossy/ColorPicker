@@ -6,9 +6,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.takisoft.colorpicker.ColorPickerDialog;
-import com.takisoft.colorpicker.ColorPickerSwatch;
+import com.takisoft.colorpicker.OnColorSelectedListener;
+import com.takisoft.colorpicker.support.ColorPickerDialogFragment;
 
-public class MainActivity extends AppCompatActivity implements ColorPickerSwatch.OnColorSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnColorSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,11 +17,12 @@ public class MainActivity extends AppCompatActivity implements ColorPickerSwatch
         setContentView(R.layout.activity_main);
 
         final ColorPickerDialog.Params params = new ColorPickerDialog.Params.Builder(getApplicationContext())
-                .setSize(ColorPickerDialog.SIZE_SMALL)
-                .setColumns(2)
-                .setSortColors(false)
+                //.setSize(ColorPickerDialog.SIZE_SMALL)
+                //.setColumns(5)
+                //.setSortColors(true)
                 .setSelectedColor(getResources().getColor(R.color.deep_orange))
-                .setColors(getResources().getIntArray(R.array.color_picker_default_colors))
+                //.setColorContentDescriptions()
+                //.setColors(getResources().getIntArray(R.array.color_picker_default_colors))
                 .build();
 
         findViewById(R.id.color_picker_btn).setOnClickListener(new View.OnClickListener() {
@@ -28,6 +30,22 @@ public class MainActivity extends AppCompatActivity implements ColorPickerSwatch
             public void onClick(View view) {
                 ColorPickerDialog dialog = new ColorPickerDialog(MainActivity.this, MainActivity.this, params);
                 dialog.show();
+            }
+        });
+
+        findViewById(R.id.color_picker_support_fragment_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorPickerDialogFragment dialogFragment = ColorPickerDialogFragment.newInstance(R.string.color_picker_default_title, params);
+                dialogFragment.show(getSupportFragmentManager(), "supportDialog");
+            }
+        });
+
+        findViewById(R.id.color_picker_frmwrk_fragment_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                com.takisoft.colorpicker.ColorPickerDialogFragment dialogFragment = com.takisoft.colorpicker.ColorPickerDialogFragment.newInstance(R.string.color_picker_default_title, params);
+                dialogFragment.show(getFragmentManager(), "frameworkDialog");
             }
         });
     }

@@ -35,17 +35,6 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     private ImageView mCheckmarkImage;
     private OnColorSelectedListener mOnColorSelectedListener;
 
-    /**
-     * Interface for a callback when a color square is selected.
-     */
-    public interface OnColorSelectedListener {
-
-        /**
-         * Called when a specific color square has been selected.
-         */
-        void onColorSelected(int color);
-    }
-
     public ColorPickerSwatch(Context context) {
         super(context);
 

@@ -2,6 +2,8 @@ package com.takisoft.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +15,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 
-public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.OnColorSelectedListener {
+public class ColorPickerDialog extends AlertDialog implements OnColorSelectedListener {
     public static final int SIZE_LARGE = 1;
     public static final int SIZE_SMALL = 2;
 
@@ -25,16 +27,16 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
     private final ColorPickerPaletteFlex mPalette;
     private final ProgressBar mProgress;
 
-    private ColorPickerSwatch.OnColorSelectedListener listener;
+    private OnColorSelectedListener listener;
 
     private Params params;
 
 
-    public ColorPickerDialog(@NonNull Context context, ColorPickerSwatch.OnColorSelectedListener listener, Params params) {
+    public ColorPickerDialog(@NonNull Context context, OnColorSelectedListener listener, Params params) {
         this(context, 0, listener, params);
     }
 
-    public ColorPickerDialog(@NonNull Context context, int themeResId, ColorPickerSwatch.OnColorSelectedListener listener, Params params) {
+    public ColorPickerDialog(@NonNull Context context, int themeResId, OnColorSelectedListener listener, Params params) {
         super(context, resolveDialogTheme(context, themeResId));
 
         final Context themeContext = getContext();
@@ -103,7 +105,7 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
         }
     }
 
-    public static class Params {
+    public static class Params implements Parcelable {
         int[] mColors;
         CharSequence[] mColorContentDescriptions;
         int mSelectedColor;
@@ -127,7 +129,7 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
             private boolean sortColors = false;
 
             @Size
-            private int size;
+            private int size = SIZE_SMALL;
 
             private Context context;
 
@@ -173,6 +175,12 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
             }
 
             public Params build() {
+                Resources res = context.getResources();
+
+                if (colors == null) {
+                    colors = res.getIntArray(R.array.color_picker_default_colors);
+                }
+
                 Params params = new Params();
 
                 if (sortColors) {
@@ -200,8 +208,6 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
                 params.mColumns = columns;
                 params.mSize = size;
 
-                Resources res = context.getResources();
-
                 if (size == ColorPickerDialog.SIZE_LARGE) {
                     params.mSwatchLength = res.getDimensionPixelSize(R.dimen.color_swatch_large);
                     params.mMarginSize = res.getDimensionPixelSize(R.dimen.color_swatch_margins_large);
@@ -213,5 +219,43 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerSwatch.
                 return params;
             }
         }
+
+        protected Params(Parcel in) {
+            mColors = in.createIntArray();
+            mSelectedColor = in.readInt();
+            mColumns = in.readInt();
+            mSize = in.readInt();
+            mSwatchLength = in.readInt();
+            mMarginSize = in.readInt();
+            mSelectedColorIndex = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeIntArray(mColors);
+            dest.writeInt(mSelectedColor);
+            dest.writeInt(mColumns);
+            dest.writeInt(mSize);
+            dest.writeInt(mSwatchLength);
+            dest.writeInt(mMarginSize);
+            dest.writeInt(mSelectedColorIndex);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<Params> CREATOR = new Creator<Params>() {
+            @Override
+            public Params createFromParcel(Parcel in) {
+                return new Params(in);
+            }
+
+            @Override
+            public Params[] newArray(int size) {
+                return new Params[size];
+            }
+        };
     }
 }
