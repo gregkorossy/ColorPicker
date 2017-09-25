@@ -18,6 +18,8 @@ package com.takisoft.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -58,15 +60,26 @@ public class ColorPickerPaletteFlex extends RecyclerView implements OnColorSelec
         mDescription = res.getString(R.string.color_swatch_description);
         mDescriptionSelected = res.getString(R.string.color_swatch_description_selected);
 
-        /*TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerPaletteFlex, defStyle, 0);
-        int colorsResId = a.getResourceId(R.styleable.ColorPickerPaletteFlex_colors, 0);
+        ColorPickerDialog.Params.Builder paramsBuilder = new ColorPickerDialog.Params.Builder(context);
 
-        if(colorsResId > 0){
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerPaletteFlex, defStyle, 0);
+        int colorsResId = a.getResourceId(R.styleable.ColorPickerPaletteFlex_cpl_colors, R.array.color_picker_default_colors);
+
+        if (colorsResId > 0) {
             int[] colors = context.getResources().getIntArray(colorsResId);
+            paramsBuilder.setColors(colors);
         }
 
-        int currentColor = a.getInt(R.styleable.ColorPickerPaletteFlex_currentColor, 0);
-        a.recycle();*/
+        paramsBuilder
+                .setSelectedColor(a.getInt(R.styleable.ColorPickerPaletteFlex_cpl_currentColor, 0))
+                .setSortColors(a.getBoolean(R.styleable.ColorPickerPaletteFlex_cpl_sortColors, false))
+                .setColumns(a.getInt(R.styleable.ColorPickerPaletteFlex_cpl_columns, 0))
+                .setSize(a.getInt(R.styleable.ColorPickerPaletteFlex_cpl_size, ColorPickerDialog.SIZE_SMALL))
+                .setColorContentDescriptions(a.getTextArray(R.styleable.ColorPickerPaletteFlex_cpl_colorDescriptions));
+
+        a.recycle();
+
+        setup(paramsBuilder.build());
     }
 
     public void setup(@NonNull ColorPickerDialog.Params params) {
@@ -116,8 +129,15 @@ public class ColorPickerPaletteFlex extends RecyclerView implements OnColorSelec
             ColorPickerSwatch view = new ColorPickerSwatch(parent.getContext());
             view.setOnColorSelectedListener(colorSelectedListener);
 
-            FlexboxLayoutManager.LayoutParams layoutParams = new FlexboxLayoutManager.LayoutParams(params.mSwatchLength, params.mSwatchLength);
-            layoutParams.setMargins(params.mMarginSize, params.mMarginSize, params.mMarginSize, params.mMarginSize);
+            FlexboxLayoutManager.LayoutParams layoutParams;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                // FIXME temporary fix for API 14-16; remove this once FlexboxLayout 0.3.1 is released
+                layoutParams = new FlexboxLayoutManager.LayoutParams(params.mSwatchLength + params.mMarginSize * 2, params.mSwatchLength + params.mMarginSize * 2);
+                view.setPadding(params.mMarginSize, params.mMarginSize, params.mMarginSize, params.mMarginSize);
+            } else {
+                layoutParams = new FlexboxLayoutManager.LayoutParams(params.mSwatchLength, params.mSwatchLength);
+                layoutParams.setMargins(params.mMarginSize, params.mMarginSize, params.mMarginSize, params.mMarginSize);
+            }
             layoutParams.setFlexGrow(0);
             layoutParams.setFlexShrink(0);
             view.setLayoutParams(layoutParams);

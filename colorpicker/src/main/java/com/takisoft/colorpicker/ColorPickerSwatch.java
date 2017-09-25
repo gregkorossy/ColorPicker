@@ -46,23 +46,6 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
         setOnClickListener(this);
     }
 
-    public ColorPickerSwatch(Context context, int color, boolean checked,
-                             OnColorSelectedListener listener) {
-        this(context);
-
-        mColor = color;
-        mOnColorSelectedListener = listener;
-
-        /*LayoutInflater.from(context).inflate(R.layout.color_picker_swatch, this);
-        mSwatchImage = (ImageView) findViewById(R.id.color_picker_swatch);
-        mCheckmarkImage = (ImageView) findViewById(R.id.color_picker_checkmark);
-        mCheckmarkImage.setImageDrawable(getCheckmark(context));*/
-
-        setColor(color);
-        setChecked(checked);
-        //setOnClickListener(this);
-    }
-
     private Drawable getCheckmark(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return AppCompatResources.getDrawable(context, R.drawable.color_picker_checkmark);
@@ -70,8 +53,8 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
             Drawable check = AppCompatResources.getDrawable(context, R.drawable.color_picker_check_tick);
             Drawable base = AppCompatResources.getDrawable(context, R.drawable.color_picker_check_base);
 
-            int basePadding = context.getResources().getDimensionPixelSize(R.dimen.checkmark_base_padding);
-            int tickPadding = context.getResources().getDimensionPixelSize(R.dimen.checkmark_tick_padding);
+            int basePadding = context.getResources().getDimensionPixelSize(R.dimen.color_picker_checkmark_base_padding);
+            int tickPadding = context.getResources().getDimensionPixelSize(R.dimen.color_picker_checkmark_tick_padding);
             LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{base, check});
             layerDrawable.setLayerInset(0, basePadding, basePadding, basePadding, basePadding);
             layerDrawable.setLayerInset(1, tickPadding, tickPadding, tickPadding, tickPadding);
