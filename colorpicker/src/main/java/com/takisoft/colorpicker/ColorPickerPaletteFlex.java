@@ -19,7 +19,6 @@ package com.takisoft.colorpicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -129,15 +128,9 @@ public class ColorPickerPaletteFlex extends RecyclerView implements OnColorSelec
             ColorPickerSwatch view = new ColorPickerSwatch(parent.getContext());
             view.setOnColorSelectedListener(colorSelectedListener);
 
-            FlexboxLayoutManager.LayoutParams layoutParams;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                // FIXME temporary fix for API 14-16; remove this once FlexboxLayout 0.3.1 is released
-                layoutParams = new FlexboxLayoutManager.LayoutParams(params.mSwatchLength + params.mMarginSize * 2, params.mSwatchLength + params.mMarginSize * 2);
-                view.setPadding(params.mMarginSize, params.mMarginSize, params.mMarginSize, params.mMarginSize);
-            } else {
-                layoutParams = new FlexboxLayoutManager.LayoutParams(params.mSwatchLength, params.mSwatchLength);
-                layoutParams.setMargins(params.mMarginSize, params.mMarginSize, params.mMarginSize, params.mMarginSize);
-            }
+            FlexboxLayoutManager.LayoutParams layoutParams = new FlexboxLayoutManager.LayoutParams(params.mSwatchLength, params.mSwatchLength);
+            layoutParams.setMargins(params.mMarginSize, params.mMarginSize, params.mMarginSize, params.mMarginSize);
+
             layoutParams.setFlexGrow(0);
             layoutParams.setFlexShrink(0);
             view.setLayoutParams(layoutParams);
