@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2013 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2013 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -44,8 +43,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center"
-    android:padding="18dp">
+    android:gravity="center">
 
     <ProgressBar
         android:id="@android:id/progress"
@@ -53,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="18dp"
         android:gravity="center" />
 
     <com.takisoft.colorpicker.ColorPickerPaletteFlex
@@ -60,6 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clipToPadding="false"
         android:gravity="center"
+        android:padding="18dp"
         android:visibility="gone" />
 </FrameLayout>
