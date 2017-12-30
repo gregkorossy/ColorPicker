@@ -53,7 +53,7 @@ public class ColorPickerDialog extends AlertDialog implements OnColorSelectedLis
         mPalette.setOnColorSelectedListener(this);
 
         if (params.mColumns > 0) {
-            mPalette.getLayoutParams().width = params.mColumns * (params.mSwatchLength + 2 * params.mMarginSize);
+            mPalette.getLayoutParams().width = mPalette.getPaddingLeft() + mPalette.getPaddingRight() + params.mColumns * (params.mSwatchLength + 2 * params.mMarginSize);
         }
 
         if (params.mColors != null) {
