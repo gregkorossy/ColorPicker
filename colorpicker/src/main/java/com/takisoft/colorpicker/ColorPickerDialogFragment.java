@@ -1,13 +1,12 @@
 package com.takisoft.colorpicker;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
 
 public class ColorPickerDialogFragment extends DialogFragment implements OnColorSelectedListener {
     public static final String EXTRA_PARAMS = "com.takisoft.colorpicker.PARAMS";
@@ -46,7 +45,7 @@ public class ColorPickerDialogFragment extends DialogFragment implements OnColor
 
         if (context instanceof OnColorSelectedListener) {
             this.onColorSelectedListener = (OnColorSelectedListener) context;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && getParentFragment() instanceof OnColorSelectedListener) {
+        } else if (getParentFragment() instanceof OnColorSelectedListener) {
             this.onColorSelectedListener = (OnColorSelectedListener) getParentFragment();
         } else if (getTargetFragment() instanceof OnColorSelectedListener) {
             this.onColorSelectedListener = (OnColorSelectedListener) getTargetFragment();

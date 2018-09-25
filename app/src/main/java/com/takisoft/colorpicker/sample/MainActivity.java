@@ -1,13 +1,13 @@
 package com.takisoft.colorpicker.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.takisoft.colorpicker.ColorPickerDialog;
 import com.takisoft.colorpicker.OnColorSelectedListener;
-import com.takisoft.colorpicker.support.ColorPickerDialogFragment;
+import com.takisoft.colorpicker.ColorPickerDialogFragment;
 
 public class MainActivity extends AppCompatActivity implements OnColorSelectedListener {
 
@@ -38,14 +38,6 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
             public void onClick(View view) {
                 ColorPickerDialogFragment dialogFragment = ColorPickerDialogFragment.newInstance(R.string.color_picker_default_title, params);
                 dialogFragment.show(getSupportFragmentManager(), "supportDialog");
-            }
-        });
-
-        findViewById(R.id.color_picker_frmwrk_fragment_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                com.takisoft.colorpicker.ColorPickerDialogFragment dialogFragment = com.takisoft.colorpicker.ColorPickerDialogFragment.newInstance(R.string.color_picker_default_title, params);
-                dialogFragment.show(getFragmentManager(), "frameworkDialog");
             }
         });
     }
