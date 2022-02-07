@@ -22,7 +22,7 @@ project.ext.buildToolsVersion = '28.0.3'
 project.ext.minSdkVersion = 14
 project.ext.sdkVersion = 28
 
-project.ext.libVersion = '1.0.0'
+project.ext.libVersion = '1.0.1'
 
 allprojects {
     repositories {
