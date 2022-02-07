@@ -23,48 +23,39 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
-    bintrayUserOrg = 'takisoft'
-    bintrayRepo = 'android'
-    bintrayName = 'com.takisoft.colorpicker:colorpicker'
-
-    publishedGroupId = 'com.takisoft.colorpicker'
-    libraryName = 'Material ColorPicker'
-    artifact = 'colorpicker'
-
-    libraryDescription = 'The material color picker opt package from the AOSP. This library uses the AppCompat library to provide the necessary functions for new features, such as vector drawables and material design.'
-
-    siteUrl = 'https://github.com/Gericop/ColorPicker'
-    gitUrl = 'https://github.com/Gericop/ColorPicker.git'
-
-    libraryVersion = rootProject.libVersion
-
-    developerId = 'gericop'
-    developerName = 'Gergely Kőrössy'
-    developerEmail = 'korossyg@takisoft.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
+    PUBLISH_GROUP_ID = 'com.takisoft.colorpicker'
+    PUBLISH_VERSION = rootProject.libVersion
+    PUBLISH_ARTIFACT_ID = 'colorpicker'
+    PUBLISH_DESCRIPTION = 'The material color picker opt package from the AOSP. This library uses the AppCompat library to provide the necessary functions for new features, such as vector drawables and material design.'
+    PUBLISH_URL = 'https://github.com/Gericop/ColorPicker'
+    PUBLISH_LICENSE_NAME = 'The Apache Software License, Version 2.0'
+    PUBLISH_LICENSE_URL = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    PUBLISH_DEVELOPER_ID = 'gericop'
+    PUBLISH_DEVELOPER_NAME = 'Gergely Kőrössy'
+    PUBLISH_DEVELOPER_EMAIL = 'korossyg@takisoft.com'
+    PUBLISH_SCM_CONNECTION =
+            'scm:git:github.com/Gericop/ColorPicker.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION =
+            'scm:git:ssh://github.com/Gericop/ColorPicker.git'
+    PUBLISH_SCM_URL =
+            'https://github.com/Gericop/ColorPicker/tree/master'
 }
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
 
 dependencies {
     api 'androidx.appcompat:appcompat:1.0.0'
     api 'androidx.recyclerview:recyclerview:1.0.0'
-    api 'com.google.android:flexbox:1.1.0'
+    api 'com.google.android.flexbox:flexbox:3.0.0'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-}
-
-//apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-//apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
-apply from: '../installv.gradle'
-apply from: '../bintrayv.gradle'
-
-javadoc.doFirst {
-    failOnError false
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.4.1-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-alpha03'
 }
